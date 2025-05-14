@@ -1,13 +1,12 @@
 import { Controller, Get } from '@nestjs/common';
+import { ProfileService } from './profile.service';
 
 @Controller('profile')
 export class ProfileController {
+  constructor(private readonly profileService: ProfileService) {}
+
   @Get()
-  getProfile() {
-    return {
-      name: 'オオタスカシバコンサルタント',
-      title: 'ITコンサルタント / エンジニア',
-      bio: '製造業DXやアプリ開発（NestJS）、ネットワーク対応を支援します。',
-    };
+  async getProfile() {
+    return this.profileService.getProfile();
   }
 }
