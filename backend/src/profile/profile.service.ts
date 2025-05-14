@@ -12,11 +12,15 @@ export class ProfileService {
       if (profile) return profile;
       console.error('DBエラー:', profile);
 
-      return this.defaultProfile();
+      return this.prisma.profile.findFirst({
+        orderBy: { id: 'desc' }, // 最新レコードを取得
+      });
+    
     } catch (error) {
       console.error('DB接続エラー:', error);
       return this.defaultProfile();
     }
+
   }
 
   private defaultProfile() {
@@ -26,4 +30,16 @@ export class ProfileService {
       bio: '（DB接続に失敗したため仮データを表示しています。不明点はお問い合わせからご連絡ください。https://refootaskacyba.com/）',
     };
   }
+
+  async updateProfile(data: { id: number; name: string; title: string; bio: string }) {
+      return this.prisma.profile.update({
+      where: { id: data.id },
+      data: {
+        name: data.name,
+        title: data.title,
+        bio: data.bio,
+      },
+      });
+  }
+
 }
