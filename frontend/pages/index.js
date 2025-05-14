@@ -11,7 +11,7 @@ export default function Home({ profile }) {
 // 3. SSGでAPIからデータ取得
 export async function getStaticProps() {
     try {
-      const res = await fetch('https://your-nest-api.onrender.com/profile');
+      const res = await fetch('https://your-backend-service-name.onrender.com/profile');
       if (!res.ok) {
         throw new Error(`API Error: ${res.status}`);
       }
