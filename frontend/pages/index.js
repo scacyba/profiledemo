@@ -7,12 +7,22 @@ export default function Home({ profile }) {
         <h1 className="text-4xl font-bold">{profile.name}</h1>
         <p className="mt-4 text-xl">{profile.title}</p>
         <p className="mt-2">{profile.bio}</p>
-      {/* ✅ 編集ボタン */}
-      <Link href="/edit">
-        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          プロフィールを編集する
-        </button>
-      </Link>
+        <br></br>
+        {/* ✅ 編集ボタン */}
+        <Link href="/edit">
+          <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            プロフィールを編集する
+          </button>
+        </Link>
+        <div className="p-6">
+        <h1 className="text-2xl font-bold mb-4">サービス紹介</h1>
+        {/* CoconalaWidget.jsxとか作って対応を数時間試みたが動かず。結局iframeに落ち着いた*/}
+        <iframe
+            src="/coconala.html"
+            height="400"
+            title="Coconala Widget"
+            />
+        </div>
       </div>
 
 );
