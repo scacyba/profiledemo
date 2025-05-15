@@ -1,8 +1,36 @@
 import { API_BASE_URL } from '../utils/api';
 import Link from 'next/link';
+import { useEffect, useState } from "react"
 
-export default function Home({ profile }) {
-    return (
+export default function Home() {
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/profile`);
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+        setProfile(data);
+      } catch (err) {
+        console.warn('API失敗：仮データを使用します');
+        setProfile({
+          name: 'オオタスカシバコンサルタント',
+          title: 'ITコンサルタント / エンジニア',
+          bio: 'Nest.js APIが未起動のため、仮データで表示中です。',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (loading) return <p>読み込み中...</p>;
+
+  return (
       <div className="p-6">
         <h1 className="text-4xl font-bold">{profile.name}</h1>
         <p className="mt-4 text-xl">{profile.title}</p>
@@ -24,11 +52,13 @@ export default function Home({ profile }) {
             />
         </div>
       </div>
-
-);
+  );
 }
 
 // 3. SSGでAPIからデータ取得
+/*キャッシュされるようで、Renderでビルドした直後にDB接続できなかった場合などに困るので未使用
+export default function Home({ profile }) で使用していた
+
 export async function getStaticProps() {
     try {
       const res = await fetch(`${API_BASE_URL}/profile`);
@@ -52,4 +82,4 @@ export async function getStaticProps() {
       };
     }
   }
-
+*/
